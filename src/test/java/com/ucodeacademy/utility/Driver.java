@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -24,16 +25,72 @@ public class Driver {
 
     private static ThreadLocal<WebDriver> threadLocalDriver= new ThreadLocal<>();
 
-    public static WebDriver getDriver(){
+//    public static WebDriver getDriver(){
+//
+//        if(threadLocalDriver.get() == null){
+//
+//            String browserName = ConfigReader.getProperty("browser");
+//            browserName = browserName.toLowerCase(); //to make sure it is lower case
+//
+//            switch (browserName){
+//
+//                case "chrome" :
+//                    threadLocalDriver.set(new ChromeDriver());
+//                    break;
+//                case "firefox":
+//                    threadLocalDriver.set(new FirefoxDriver());
+//                    break;
+//                case "edge":
+//                    threadLocalDriver.set(new EdgeDriver());
+//                    break;
+//                case "safari":
+//                    threadLocalDriver.set(new SafariDriver());
+//                    break;
+//                case "chrome-headless":  //in the background
+//                    ChromeOptions options = new ChromeOptions();
+//                    options.addArguments("--headless");
+//                    threadLocalDriver.set(new ChromeDriver(options));
+//                    break;
+//                case "remote":
+//
+//                    DesiredCapabilities capabilities =new DesiredCapabilities();
+//                    //capabilities.setBrowserName("safari");
+//                    capabilities.setBrowserName(Browser.CHROME.browserName());
+//                    capabilities.setPlatform(Platform.MAC);
+//
+//                    try {
+//                        URL url = new URL("http://192.168.1.154:4444/");
+//                        threadLocalDriver.set(new RemoteWebDriver(url,capabilities));
+//                    } catch (Exception e){
+//                        e.getStackTrace();
+//
+//                        throw  new RuntimeException("Remote WebDriver or URL is not working");
+//                    }
+//                    break;
+//                default:
+//                    throw new RuntimeException("Invalid browsers name");
+//            }
+//
+//        }
+//
+//        WebDriver driver = threadLocalDriver.get();
+//        driver.manage().window().maximize();
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//
+//        return driver;
+//
+//    }
 
-        if(threadLocalDriver.get() == null){
+    public static WebDriver getDriver() {
+
+        if (threadLocalDriver.get() == null) {
 
             String browserName = ConfigReader.getProperty("browser");
-            browserName = browserName.toLowerCase(); //to make sure it is lower case
+            browserName = browserName.toLowerCase(); // make sure it is lower case
 
-            switch (browserName){
+            switch (browserName) {
 
-                case "chrom" :
+                case "chrome":
                     threadLocalDriver.set(new ChromeDriver());
                     break;
                 case "firefox":
@@ -45,28 +102,30 @@ public class Driver {
                 case "safari":
                     threadLocalDriver.set(new SafariDriver());
                     break;
-                case "chrome-headless":  //in the background
+                case "chrome-headless":
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("--headless");
                     threadLocalDriver.set(new ChromeDriver(options));
                     break;
                 case "remote":
-
-                    DesiredCapabilities capabilities =new DesiredCapabilities();
-                    capabilities.setBrowserName("chrome");
-                    capabilities.setPlatform(Platform.ANY);
+                    DesiredCapabilities capabilities = new DesiredCapabilities();
+                    //capabilities.setBrowserName("safari"); // if you want to give browser name as String
+                    capabilities.setBrowserName(Browser.SAFARI.browserName());
+                    capabilities.setPlatform(Platform.MAC); // Operating system Mac
 
                     try {
-                        URL url = new URL("http://199.00.0");
-                        threadLocalDriver.set(new RemoteWebDriver(url,capabilities));
-                    } catch (Exception e){
+                        URL url = new URL("http://192.168.1.154:4444/"); // we will give the correct url later
+
+                        threadLocalDriver.set(new RemoteWebDriver(url, capabilities));
+                    } catch (Exception e) {
                         e.getStackTrace();
 
-                        throw  new RuntimeException("Remote WebDriver or URL is not working");
+                        throw new RuntimeException("Remote WebDriver or URL is not working");
                     }
                     break;
                 default:
-                    throw new RuntimeException("Invalid browsers name");
+                    throw new RuntimeException("Invalid browser name");
+
             }
 
         }
@@ -78,6 +137,7 @@ public class Driver {
         return driver;
 
     }
+
 
     public static void quitDriver(){
 

@@ -1,0 +1,108 @@
+TDD stands for Test Driven Development
+
+BDD stands for Behavior-Driven Development
+
+What is Feature in BDD?
+Feature is a user story
+Normally from one feature(user story), we create/write many Scenarios(tests)
+
+What is Scenario in BDD?
+Scenario is a test.
+Test cases known as Scenario in .feature file
+
+plugin = {"html:target/cucumber.html",
+             "json:target/cucumber.json",
+             "rerun:target/reran.txt"
+     },
+
+     features = "src/test/resources/features",
+     glue = "com/ucodeacademy/step_definitions",
+     dryRun = false,
+     tags = "@google"
+ )
+
+Plugin -> allows us to generate HTML/JSON test report (under target folder)
+
+feature -> We give the path feature files (resources/feature)
+
+glue -> we give the path to the step_definitions
+
+dryRun = true/false -> allows us to run our features based on boolean condition
+true -> means do Not run feature, check if all features have step_definition/
+code implementation. If any feature/scenario that do Not have steps /codes implemented
+it will implement the steps/codes/snippets
+
+if doesn't find anything it will generate snippets
+
+-false -> means run features
+
+tags="@tagName" -> allows us to group features/scenario and run them using tags
+We can give any tag for Feature/scenarios(custom tag)
+
+We can give tag to feature and Scenario. If the tag on top of Feature, all Scenarios under that
+Feature will be included.
+
+Feature or Scenario can have multiple tags
+___________________________________________________________________________
+
+How to rerun failed tests/Feature in Cucumber BDD?
+
+(CucumberOption plugin) We can rerun failed test from Failed Test Runner Class.
+
+Failed tests/feature/scenario will be stored here:
+
+"rerun:target/reran.txt" -> this stores failed tests so Failed Test Runner class can run
+failed tests from this file.
+
+FailedTestRunner class:
+
+@RunWith(Cucumber.class)
+
+@CucumberOptions(
+        plugin =  {"html:target/rerun_report.html",
+                "json:target/json_rerun_report.json"},
+        features = "@target/rerun.txt",
+        glue = "com/ucodeacademy/step_definitions"
+
+)
+feature is the only difference. in the failed test runner class, we give the path
+to rerun.txt file:
+
+e.g-> features = "@target/rerun.txt"
+
+Cucumber Hooks:
+Hooks allows us to take some actions before and after each scenario, or before and
+after each step in scenario.
+Hooks is class that we create (normally under step_definitions package) and
+there are some annotations that comes from cucumber we use.
+
+What is Hooks in Cucumber/why do we use Hooks in Cucumber?
+Hooks allow us to take some actions before/after each scenario using annotations
+Why? When we want to take some actions before/after each scenario or each step
+in scenario, we can set in Hooks class using annotations.
+Such as take screenshot of failed test, to take some action before each scenario
+or before a specific scenario.
+In our case, we use hooks to take screenshot of failed tests and attach it to test report
+
+Hooks annotations are like TestNG & JUnit annotation, but they work with Scenario
+Hooks annotations:
+
+@Before -> runs before each Scenario(set it only once). This annotation comes from
+Cucumber.
+
+@After -> runs after each scenario (set it only once). This annotation comes from
+ Cucumber.
+
+@BeforeStep -> Runs before each step in Scenario (set it only once)
+
+@AfterStep-> Runs after each step in Scenario(set only once)
+
+When we create a method using any of Cucumber annotation, if we want to get
+Scenario and assign to Scenario class object, we need to declare an object
+from Scenario class as a parameter inour
+
+
+
+
+
+
